@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+service BookingService {
+  rpc list(ListBookingRequest) returns (PaginatedBooking) {}
+  rpc getById(BookingByIdRequest) returns (Booking) {}
+  rpc create(BookingRequest) returns (Booking) {}
+  rpc cancel(BookingByIdRequest) returns (Booking) {}
+  rpc confirm(BookingByIdRequest) returns (Booking) {}
+}
+
+message ListBookingRequest {
+  uint32 page = 1;
+  uint32 limit = 2;
+  optional string status = 3;
+}
+
+message BookingByIdRequest {
+  string id = 1;
+}
+
+message PaginatedBooking {
+  message Meta {
+    uint32 total = 1;
+  }
+
+  Meta meta = 1;
+  repeated Booking data = 2;
+}
+
+message Booking {
+  string id = 1;
+  string status = 2;
+  string arrivalTime = 3;
+  string guestName = 4;
+  string guestEmail = 5;
+  uint32 guestsCount = 6;
+  string restaurant = 7;
+}
+
+message BookingRequest {
+  string arrivalTime = 1;
+  string guestName = 2;
+  string guestEmail = 3;
+  uint32 guestsCount = 4;
+  string restaurant = 5;
+}
