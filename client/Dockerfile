@@ -15,15 +15,13 @@ RUN npm run build
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
 ARG AWS_DEFAULT_REGION
-ARG ENVIRONMENT
-ARG BUCKET
+ARG VERSION
+ARG BUILD_BUCKET
 
 # Push frontend build to s3
-RUN aws s3 cp --exclude "*index.html" \
-                --exclude "*version.json" \
-                --cache-control max-age=604800 \
-                --recursive ./build \
-                s3://$BUCKET/deployment/$ENVIRONMENT
+RUN aws s3 cp --cache-control max-age=0,no-cache,no-store,must-revalidate \
+              --recursive ./build \
+                s3://$BUILD_BUCKET/deployment/$VERSION
             
 
 FROM nginx:1.21.4-alpine as dev
