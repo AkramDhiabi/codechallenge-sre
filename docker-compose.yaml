@@ -2,10 +2,8 @@ version: '3.7'
 
 services:
   auth:
-    image: superbxp/challenge-devops-auth:latest
     build:
-      context: .
-      dockerfile: ./auth/Dockerfile
+      context: auth
     restart: unless-stopped
     ports:
     - 4000:3000/tcp
@@ -14,10 +12,8 @@ services:
     depends_on:
     - mongodb
   booking:
-    image: superbxp/challenge-devops-booking:latest
     build:
-      context: .
-      dockerfile: ./booking/Dockerfile
+      context: booking
     restart: unless-stopped
     ports:
     - 4100:3000/tcp
@@ -27,10 +23,8 @@ services:
     depends_on:
     - mongodb
   graphql:
-    image: superbxp/challenge-devops-graphql:latest
     build:
-      context: .
-      dockerfile: ./graphql/Dockerfile
+      context: graphql
     restart: unless-stopped
     ports:
     - 4200:3000/tcp
@@ -41,21 +35,23 @@ services:
     - booking
     - auth
   client:
-    image: superbxp/challenge-devops-client:latest
     build:
-      context: .
-      dockerfile: ./client/Dockerfile
+      context: client
+      target: dev
     restart: unless-stopped
     ports:
     - 4300:80/tcp
   mongodb:
-    image: mongo:5.0.4
+    image: mongo
     environment:
+      MONGO_INITDB_DATABASE: superb
       MONGO_INITDB_ROOT_USERNAME: superb
       MONGO_INITDB_ROOT_PASSWORD: superb
-    restart: unless-stopped
+    restart: always
     volumes:
     - mongodbdata:/data/db
+    #- mongodb_config:/data/configdb
+    - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
     - 27017:27017/tcp
 
