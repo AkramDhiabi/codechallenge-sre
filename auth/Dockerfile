@@ -6,12 +6,13 @@ RUN apk add --no-cache --virtual python make g++
 
 RUN apk add --no-cache --virtual .gyp
 
-COPY ./auth/package.json ./auth/package-lock.json ./
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm ci
 
 RUN apk del .gyp
 
-COPY ./auth /var/www/
+COPY index.js .
 
 CMD ["npm", "start"]

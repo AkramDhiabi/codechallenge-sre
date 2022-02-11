@@ -2,11 +2,12 @@ FROM node:14-alpine
 
 WORKDIR /var/www
 
-COPY ./graphql/package.json ./graphql/package-lock.json ./
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm ci
 
-COPY ./graphql/ /var/www/
+COPY index.js .
 COPY ./proto/ /var/proto/
 
 CMD ["npm", "start"]
