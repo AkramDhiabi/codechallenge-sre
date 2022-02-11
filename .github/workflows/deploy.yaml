@@ -43,3 +43,42 @@ jobs:
             AWS_ACCESS_KEY_ID=${{ secrets.assets_access_key_id }}
             AWS_SECRET_ACCESS_KEY=${{ secrets.assets_secret_access_key }}
             AWS_DEFAULT_REGION=${{ secrets.aws_region }}
+      
+      - name: Build and Push booking image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./booking
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/booking:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/booking:latest
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/booking:latest
+          cache-to: type=inline
+          build-args: |
+            AWS_ACCESS_KEY_ID=${{ secrets.assets_access_key_id }}
+            AWS_SECRET_ACCESS_KEY=${{ secrets.assets_secret_access_key }}
+            AWS_DEFAULT_REGION=${{ secrets.aws_region }}
+      
+      - name: Build and Push graphql image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./graphql
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/graphql:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/graphql:latest
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/graphql:latest
+          cache-to: type=inline
+          build-args: |
+            AWS_ACCESS_KEY_ID=${{ secrets.assets_access_key_id }}
+            AWS_SECRET_ACCESS_KEY=${{ secrets.assets_secret_access_key }}
+            AWS_DEFAULT_REGION=${{ secrets.aws_region }}
+      
+      - name: Build and Push client image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./client
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/client:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/client:latest
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/client:latest
+          cache-to: type=inline
+          build-args: |
+            AWS_ACCESS_KEY_ID=${{ secrets.assets_access_key_id }}
+            AWS_SECRET_ACCESS_KEY=${{ secrets.assets_secret_access_key }}
+            AWS_DEFAULT_REGION=${{ secrets.aws_region }}
