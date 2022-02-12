@@ -15,7 +15,7 @@
                 "awslogs-stream-prefix": "${app_name}"
             }
         },
-        "portMappings": [
+        "portMappings": [ 
             {
                 "containerPort": 4200,
                 "hostPort": 8080
