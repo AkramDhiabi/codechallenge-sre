@@ -18,12 +18,12 @@ locals {
     "auth" = {
       template = "auth.def.json.tpl"
     }
-   # "booking" = {
-   #   template = "booking.def.json.tpl"
-   # },
-   # "graphql" = {
-   #   template = "graphql.def.json.tpl"
-   # }
+    "booking" = {
+      template = "booking.def.json.tpl"
+    }
+    "graphql" = {
+      template = "graphql.def.json.tpl"
+    }
   }
 }
 
