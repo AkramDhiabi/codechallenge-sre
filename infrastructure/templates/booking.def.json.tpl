@@ -1,7 +1,7 @@
 [
     {
         "name": "${app_name}",
-        "image": "${auth_image}",
+        "image": "${booking_image}",
         "essential": true,
         "secrets": [
             {"name": "MONGODB_URL", "valueFrom": "${mongodb_url}"},
@@ -16,8 +16,12 @@
         },
         "portMappings": [
             {
-                "containerPort": 4000,
+                "containerPort": 4100,
                 "hostPort": 8080
+            },
+            {
+                "containerPort": 4101,
+                "hostPort": 3000
             }
         ]
     }
