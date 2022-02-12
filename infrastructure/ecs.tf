@@ -34,8 +34,8 @@ data "template_file" "container_def" {
     app_name         = "${each.key}"
     log_group_name   = aws_cloudwatch_log_group.ecs_task_logs.name
     log_group_region = local.region_id
-    auth_image       = var.ecr_auth_image
-    booking_image    = var.ecr_auth_image
+    auth_image       = var.auth_image
+    booking_image    = var.booking_image
     mongodb_url      = "?"
   }
 }
