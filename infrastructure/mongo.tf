@@ -1,16 +1,16 @@
 resource "aws_docdb_cluster" "superb_cluster" {
   cluster_identifier      = "${local.prefix}-superb-cluster"
   engine                  = "docdb"
-  master_username         = "${data.aws_ssm_parameter.superb-username.value}"
-  master_password         = "${data.aws_ssm_parameter.superb-password.value}"
+  master_username         = data.aws_ssm_parameter.superb-username.value
+  master_password         = data.aws_ssm_parameter.superb-password.value
   backup_retention_period = 5
   preferred_backup_window = "07:00-09:00"
   skip_final_snapshot     = true
-  availability_zones = ["${data.aws_region.current.name}a", "${data.aws_region.current.name}b"]
+  availability_zones      = ["${data.aws_region.current.name}a", "${data.aws_region.current.name}b"]
 }
 
 resource "aws_docdb_cluster_instance" "superb_instance" {
-  identifier         = "${data.aws_ssm_parameter.superb-dbname.value}"
+  identifier         = data.aws_ssm_parameter.superb-dbname.value
   cluster_identifier = aws_docdb_cluster.superb_cluster.id
   instance_class     = "db.t3.medium"
 }

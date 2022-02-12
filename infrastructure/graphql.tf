@@ -1,6 +1,6 @@
-resource "aws_security_group" "booking" {
-  description = "Access for the booking service"
-  name        = "${local.prefix}-booking-service"
+resource "aws_security_group" "graphql" {
+  description = "Access for the graphql service"
+  name        = "${local.prefix}-graphql-service"
   vpc_id      = aws_vpc.main.id
 
   egress {
@@ -29,9 +29,9 @@ resource "aws_security_group" "booking" {
   tags = local.common_tags
 }
 
-resource "aws_ecs_task_definition" "booking" {
-  family                   = "${local.prefix}-booking"
-  container_definitions    = data.template_file.container_def["booking"].rendered
+resource "aws_ecs_task_definition" "graphql" {
+  family                   = "${local.prefix}-graphql"
+  container_definitions    = data.template_file.container_def["graphql"].rendered
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = 256
@@ -45,41 +45,18 @@ resource "aws_ecs_task_definition" "booking" {
 }
 
 # project-activity-cron ECS service
-resource "aws_ecs_service" "booking" {
-  name            = "booking"
+resource "aws_ecs_service" "graphql" {
+  name            = "graphql"
   cluster         = aws_ecs_cluster.main.name
-  task_definition = aws_ecs_task_definition.booking.family
+  task_definition = aws_ecs_task_definition.graphql.family
   desired_count   = 1
   launch_type     = "FARGATE"
 
   # put it in a private subnet 
   network_configuration {
     subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
-    security_groups  = [aws_security_group.booking.id]
+    security_groups  = [aws_security_group.graphql.id]
     assign_public_ip = false
   }
-
-  service_registries {
-    registry_arn   = aws_service_discovery_service.booking.arn
-    container_name = "booking"
-  }
 }
 
-resource "aws_service_discovery_service" "booking" {
-  name = "booking"
-
-  dns_config {
-    namespace_id = aws_service_discovery_private_dns_namespace.superb-backend.id
-
-    dns_records {
-      ttl  = 10
-      type = "A"
-    }
-
-    routing_policy = "MULTIVALUE"
-  }
-
-  health_check_custom_config {
-    failure_threshold = 1
-  }
-}

@@ -54,14 +54,14 @@ resource "aws_ecs_service" "auth" {
 
   # put it in a private subnet 
   network_configuration {
-    subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id] 
+    subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
     security_groups  = [aws_security_group.auth.id]
     assign_public_ip = false
   }
 
   service_registries {
-      registry_arn = aws_service_discovery_service.auth.arn
-      container_name = "auth"
+    registry_arn   = aws_service_discovery_service.auth.arn
+    container_name = "auth"
   }
 }
 

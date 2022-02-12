@@ -37,5 +37,7 @@ data "template_file" "container_def" {
     auth_image       = var.auth_image
     booking_image    = var.booking_image
     mongodb_url      = "${aws_ssm_parameter.superb_endpoint.arn}"
+    booking_uri      = "booking.local"
+    auth_uri         = "auth.local"
   }
 }
