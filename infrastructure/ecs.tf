@@ -5,32 +5,6 @@ resource "aws_ecs_cluster" "main" {
   tags = local.common_tags
 }
 
-# common ECS service Security Group
-resource "aws_security_group" "ecs_service" {
-  description = "Access for the ECS service"
-  name        = "${local.prefix}-ecs-service"
-  vpc_id      = aws_vpc.main.id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # the port the backend runs on as the entrypoint of our app
-  ingress {
-    from_port = 8080
-    to_port   = 8080
-    protocol  = "tcp"
-    security_groups = [
-      aws_security_group.lb.id
-    ]
-  }
-
-  tags = local.common_tags
-}
-
 locals {
   backend_services = {
     "auth" = {
