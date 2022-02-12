@@ -17,11 +17,11 @@
         "portMappings": [
             {
                 "containerPort": 4100,
-                "hostPort": 8080
+                "hostPort": 4100
             },
             {
                 "containerPort": 4101,
-                "hostPort": 3000
+                "hostPort": 4101
             }
         ]
     }
