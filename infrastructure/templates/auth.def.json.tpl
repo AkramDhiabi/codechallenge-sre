@@ -4,7 +4,7 @@
         "image": "${auth_image}",
         "essential": true,
         "secrets": [
-            {"name": "MONGODB_URL", "valueFrom": "${mongodb_url}"},
+            {"name": "MONGODB_URL", "valueFrom": "${mongodb_url}"}
         ],
         "logConfiguration": {
             "logDriver": "awslogs",
@@ -17,7 +17,7 @@
         "portMappings": [
             {
                 "containerPort": 4000,
-                "hostPort": 8080
+                "hostPort": 4000
             }
         ]
     }

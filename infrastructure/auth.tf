@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "auth" {
   cpu                      = 256
   memory                   = 512
   # the permission needed by our task in order to start/run docker containers
-  execution_role_arn = aws_iam_role.task_execution_role.arn
+  execution_role_arn = aws_iam_role.superb_execution_role.arn
   # the permission needed by our task at the run time
   task_role_arn = aws_iam_role.app_iam_role.arn
 

@@ -7,7 +7,7 @@ resource "aws_ecs_cluster" "main" {
 
 # common Cloudwatch log group for backend services
 resource "aws_cloudwatch_log_group" "ecs_task_logs" {
-  name              = "${local.prefix}-backend"
+  name              = "${local.prefix}-superb-backend"
   retention_in_days = 30
 
   tags = local.common_tags
@@ -17,13 +17,13 @@ locals {
   backend_services = {
     "auth" = {
       template = "auth.def.json.tpl"
-    },
-    "booking" = {
-      template = "booking.def.json.tpl"
-    },
-    "graphql" = {
-      template = "graphql.def.json.tpl"
     }
+   # "booking" = {
+   #   template = "booking.def.json.tpl"
+   # },
+   # "graphql" = {
+   #   template = "graphql.def.json.tpl"
+   # }
   }
 }
 
@@ -36,6 +36,6 @@ data "template_file" "container_def" {
     log_group_region = local.region_id
     auth_image       = var.auth_image
     booking_image    = var.booking_image
-    mongodb_url      = "?"
+    mongodb_url      = "${aws_ssm_parameter.superb_endpoint.arn}"
   }
 }
