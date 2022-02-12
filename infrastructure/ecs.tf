@@ -5,6 +5,14 @@ resource "aws_ecs_cluster" "main" {
   tags = local.common_tags
 }
 
+# common Cloudwatch log group for backend services
+resource "aws_cloudwatch_log_group" "ecs_task_logs" {
+  name              = "${local.prefix}-backend"
+  retention_in_days = 30
+
+  tags = local.common_tags
+}
+
 locals {
   backend_services = {
     "auth" = {
