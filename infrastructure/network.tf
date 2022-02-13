@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = "10.80.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
 
@@ -83,7 +83,7 @@ resource "aws_route" "public_internet_access" {
 
 resource "aws_subnet" "public_a" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.0.0/19"
+  cidr_block              = "10.80.0.0/19"
   map_public_ip_on_launch = true
   availability_zone       = "${data.aws_region.current.name}a"
 
@@ -101,7 +101,7 @@ resource "aws_route_table_association" "public_a" {
 ## Public Subnet b
 resource "aws_subnet" "public_b" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.32.0/19"
+  cidr_block              = "10.80.32.0/19"
   map_public_ip_on_launch = true
   availability_zone       = "${data.aws_region.current.name}b"
 
@@ -122,7 +122,7 @@ resource "aws_route_table_association" "public_b" {
 ## Private Subnet a
 resource "aws_subnet" "private_a" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.64.0/19"
+  cidr_block        = "10.80.64.0/19"
   availability_zone = "${data.aws_region.current.name}a"
 
   tags = merge(
@@ -139,7 +139,7 @@ resource "aws_route_table_association" "private_a" {
 ## Private Subnet b
 resource "aws_subnet" "private_b" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.96.0/19"
+  cidr_block        = "10.80.96.0/19"
   availability_zone = "${data.aws_region.current.name}b"
 
   tags = merge(

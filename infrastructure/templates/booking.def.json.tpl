@@ -4,7 +4,7 @@
         "image": "${booking_image}",
         "essential": true,
         "secrets": [
-            {"name": "MONGODB_URL", "valueFrom": "${mongodb_url}"},
+            {"name": "MONGODB_URL", "valueFrom": "${mongodb_url}"}
         ],
         "logConfiguration": {
             "logDriver": "awslogs",

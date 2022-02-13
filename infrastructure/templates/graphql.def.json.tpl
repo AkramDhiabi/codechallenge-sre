@@ -1,7 +1,7 @@
 [
     {
         "name": "${app_name}",
-        "image": "${booking_image}",
+        "image": "${graphql_image}",
         "essential": true,
         "environment": [
             {"name": "BOOKING_SERVICE_URI", "value": "${booking_uri}"},

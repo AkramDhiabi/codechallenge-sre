@@ -13,3 +13,7 @@ variable "auth_image" {
 variable "booking_image" {
   description = "ECR Image for booking service"
 }
+
+variable "graphql_image" {
+  description = "ECR Image for graphql service"
+}
