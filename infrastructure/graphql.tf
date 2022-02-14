@@ -45,6 +45,18 @@ resource "aws_ecs_service" "graphql" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+  deployment_controller {
+    type = "CODE_DEPLOY"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      load_balancer,
+      desired_count,
+      task_definition
+    ]
+  }
+
   # put it in a private subnet 
   network_configuration {
     subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
