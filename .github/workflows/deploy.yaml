@@ -7,7 +7,7 @@ on:
     branches: [ setup-infrastructure ]
 
 jobs:
-  Build_Backend:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
