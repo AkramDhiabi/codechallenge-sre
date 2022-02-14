@@ -31,8 +31,8 @@ resource "aws_security_group" "lb" {
 
   egress {
     protocol    = "tcp"
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 0
+    to_port     = 3000
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -45,10 +45,10 @@ resource "aws_lb_target_group" "blue_graphql" {
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
-  port        = 8080
+  port        = 3000
 
   health_check {
-    path = "/ping"
+    path = "/healthz"
     #Response codes to use when checking for a healthy responses from a target
     matcher = "200"
   }
@@ -66,7 +66,7 @@ resource "aws_lb_target_group" "green_graphql" {
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
-  port        = 8080
+  port        = 3000
 
   health_check {
     path    = "/ping"

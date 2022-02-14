@@ -11,15 +11,8 @@ resource "aws_security_group" "auth" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = 8080
-    to_port   = 8080
+    from_port = 0
+    to_port   = 3000
     protocol  = "tcp"
     security_groups = [
       aws_security_group.graphql.id
@@ -85,10 +78,10 @@ resource "aws_service_discovery_service" "auth" {
 }
 
 resource "aws_security_group_rule" "auth_superb_db" {
-  type                     = "egress"
+  type                     = "ingress"
   to_port                  = 27017
-  protocol                 = "-1"
-  from_port                = 8080
+  protocol                 = "TCP"
+  from_port                = 0
   security_group_id        = aws_security_group.superb_db.id
   source_security_group_id = aws_security_group.auth.id
 }

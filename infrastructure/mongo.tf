@@ -14,7 +14,7 @@ resource "aws_security_group" "superb_db" {
 }
 
 resource "aws_docdb_cluster_parameter_group" "superb_pg" {
-  family      = "docdb3.6"
+  family      = "docdb4.0"
   name        = "superb-pg"
   description = "Superb docdb cluster parameter group"
 

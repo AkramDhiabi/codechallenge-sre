@@ -16,8 +16,8 @@
         },
         "portMappings": [
             {
-                "containerPort": 8080,
-                "hostPort": 8080
+                "containerPort": 3000,
+                "hostPort": 3000
             }
         ]
     }
