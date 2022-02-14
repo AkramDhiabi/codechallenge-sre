@@ -11,8 +11,7 @@ data "aws_acm_certificate" "superb_issued" {
 }
 
 # create a route53 record for api lb dns in test
-resource "aws_route53_record" "api_test" {
-  count   = local.prefix == "production" ? 0 : 1
+resource "aws_route53_record" "graphql" {
   zone_id = data.aws_route53_zone.superb_zone.zone_id
   name    = "superb-graphql.${var.dns_zone_name}"
   # link it to CNAME which points to another DNS name of the load balancer
