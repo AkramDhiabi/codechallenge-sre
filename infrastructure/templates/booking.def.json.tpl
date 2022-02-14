@@ -16,8 +16,8 @@
         },
         "portMappings": [
             {
-                "containerPort": 4100,
-                "hostPort": 4100
+                "containerPort": 8080,
+                "hostPort": 8080
             },
             {
                 "containerPort": 4101,

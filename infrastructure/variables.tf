@@ -17,3 +17,8 @@ variable "booking_image" {
 variable "graphql_image" {
   description = "ECR Image for graphql service"
 }
+
+variable "dns_zone_name" {
+  description = "Domain name"
+  default  = "private.filestage.io"
+}

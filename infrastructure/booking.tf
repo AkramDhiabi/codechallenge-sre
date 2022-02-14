@@ -11,8 +11,8 @@ resource "aws_security_group" "booking" {
   }
 
   ingress {
-    from_port = 4200
-    to_port   = 4100
+    from_port = 8080
+    to_port   = 8080
     protocol  = "tcp"
     security_groups = [
       aws_security_group.graphql.id

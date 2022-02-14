@@ -12,7 +12,7 @@ resource "aws_security_group" "graphql" {
 
   ingress {
     from_port = 8080
-    to_port   = 4200
+    to_port   = 8080
     protocol  = "tcp"
     security_groups = [
       aws_security_group.lb.id
@@ -51,5 +51,14 @@ resource "aws_ecs_service" "graphql" {
     security_groups  = [aws_security_group.graphql.id]
     assign_public_ip = false
   }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.blue_graphql.arn
+    container_name   = "graphql"
+    container_port   = 8080
+  }
+
+  # Should wait for the alb listener in order to create the service
+  depends_on = [aws_lb_listener.graphql_http]
 }
 
