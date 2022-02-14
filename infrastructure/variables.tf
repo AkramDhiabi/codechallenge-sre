@@ -20,5 +20,5 @@ variable "graphql_image" {
 
 variable "dns_zone_name" {
   description = "Domain name"
-  default  = "private.filestage.io"
+  default     = "private.filestage.io"
 }

@@ -13,7 +13,7 @@ resource "aws_lb" "graphql_api" {
 resource "aws_security_group" "lb" {
   description = "SG Allow access to Application Load Balancer"
   name        = "${local.prefix}-lb"
-  vpc_id      =  aws_vpc.main.id 
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     protocol    = "tcp"
@@ -108,7 +108,7 @@ resource "aws_lb_listener" "graphql_api_https" {
 
   default_action {
     type             = "forward"
-    target_group_arn =aws_lb_target_group.blue_graphql.arn
+    target_group_arn = aws_lb_target_group.blue_graphql.arn
   }
 
   lifecycle {

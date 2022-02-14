@@ -1,6 +1,6 @@
 # get dns hosted zone for superb
 data "aws_route53_zone" "superb_zone" {
-  name  = var.dns_zone_name
+  name = var.dns_zone_name
 }
 
 # get issued certificate

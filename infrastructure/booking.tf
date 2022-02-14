@@ -76,3 +76,12 @@ resource "aws_service_discovery_service" "booking" {
     failure_threshold = 1
   }
 }
+
+resource "aws_security_group_rule" "booking_superb_db" {
+  type                     = "egress"
+  to_port                  = 27017
+  protocol                 = "-1"
+  from_port                = 8080
+  security_group_id        = aws_security_group.superb_db.id
+  source_security_group_id = aws_security_group.booking.id
+}

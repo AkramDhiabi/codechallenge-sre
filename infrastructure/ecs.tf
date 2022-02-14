@@ -1,5 +1,8 @@
 # ECS cluster
 resource "aws_ecs_cluster" "main" {
+  depends_on = [
+    aws_docdb_cluster_instance.superb_instance
+  ]
   name = "${local.prefix}-cluster"
 
   tags = local.common_tags
