@@ -69,7 +69,7 @@ resource "aws_lb_target_group" "green_graphql" {
   port        = 3000
 
   health_check {
-    path    = "/ping"
+    path    = "/healthz"
     matcher = "200"
   }
 
