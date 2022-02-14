@@ -53,6 +53,7 @@ resource "aws_docdb_cluster_instance" "superb_instance" {
   tags = local.common_tags
 }
 
+# create superb db-endpoint secret
 resource "aws_ssm_parameter" "superb_endpoint" {
   name  = "/backend/mongo/dbendpoint"
   type  = "SecureString"
