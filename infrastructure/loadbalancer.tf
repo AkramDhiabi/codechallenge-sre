@@ -33,7 +33,7 @@ resource "aws_security_group" "lb" {
     protocol    = "tcp"
     from_port   = 0
     to_port     = 3000
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.80.0.0/16"]
   }
 
   tags = local.common_tags
