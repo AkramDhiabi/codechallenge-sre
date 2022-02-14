@@ -92,6 +92,7 @@ jobs:
             BUILD_BUCKET=${{ secrets.S3_REPOSITORY }}
 
   Deploy:
+     needs: [Build]
      runs-on: ubuntu-latest
      defaults:
       run:
