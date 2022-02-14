@@ -141,6 +141,7 @@ const resolvers = {
 };
 
 app.get('/healthz', (_, res) => {
+  res.status(200);
   res.json({ ok: 1 });
 });
 

@@ -128,7 +128,7 @@ app.get('/sessions/current', async (req, res) => {
 });
 
 async function main() {
-  await mongoose.connect(MONGODB_URL);
+  await mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
   app.listen(HTTP_PORT, () => {
     logger.info(`Start server listen on 0.0.0.0:${HTTP_PORT}`);

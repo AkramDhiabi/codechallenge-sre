@@ -163,7 +163,7 @@ app.get('/healthz', (_, res) => {
 });
 
 async function main() {
-  await mongoose.connect(MONGODB_URL);
+  await mongoose.connect(MONGODB_URL,{ useNewUrlParser: true, useUnifiedTopology: true });
 
   const server = new grpc.Server();
 

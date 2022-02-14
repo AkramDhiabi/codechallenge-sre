@@ -16,7 +16,7 @@ terraform {
       version = ">= 2.1.0"
     }
     template = {
-      source = "hashicorp/template"
+      source  = "hashicorp/template"
       version = "2.2.0"
     }
   }
