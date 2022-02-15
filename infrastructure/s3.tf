@@ -2,7 +2,7 @@
 resource "aws_s3_bucket" "superb_bucket" {
   bucket = "${local.prefix}-superb-frontend"
   # files on this bucket are private
-  acl = "private"
+  #acl = "private"
   # destroy our bucket with our terraform
   force_destroy = true
 }
@@ -25,6 +25,6 @@ data "aws_iam_policy_document" "s3_oai_frontend_policy" {
 }
 
 resource "aws_s3_bucket_policy" "superb_frontend_policy" {
-  bucket = aws_s3_bucket.fstg_bucket.id
+  bucket = aws_s3_bucket.superb_bucket.id
   policy = data.aws_iam_policy_document.s3_oai_frontend_policy.json
 }
