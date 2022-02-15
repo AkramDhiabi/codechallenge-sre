@@ -1,0 +1,55 @@
+name: Remove production environment
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+
+  delete-infra:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infrastructure
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set short commit sha
+        id: short-commit-sha
+        run: echo "::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-8)"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: terraform init
+        run: terraform init
+
+      - name: terraform select workspace
+        run: terraform workspace select production
+
+      - name: destroy the environment
+        continue-on-error: true
+        run:  |
+          export TF_VAR_tag=$TAG
+          export TF_VAR_auth_image=$AUTH_REPO:$TAG
+          export TF_VAR_booking_image=$BOOKING_REPO:$TAG
+          export TF_VAR_graphql_image=$GRAPHQL_REPO:$TAG
+          export TF_VAR_acm_arn_prod=$ACM_ARN_PROD
+          terraform destroy -auto-approve -lock=false
+        env:
+         TAG: ${{ steps.short-commit-sha.outputs.version }}
+         AUTH_REPO: ${{ secrets.AUTH_REPO }}
+         BOOKING_REPO: ${{ secrets.BOOKING_REPO }}
+         GRAPHQL_REPO: ${{ secrets.GRAPHQL_REPO }}
+         ACM_ARN_PROD: ${{ secrets.ACM_ARN_PROD }}
+
+      - name: delete workspace
+        continue-on-error: true
+        run: |
+          terraform workspace select default
+          terraform workspace delete $TAG
+        env:
+          TAG: ${{ env.PR_NUMBER }}
