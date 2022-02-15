@@ -6,6 +6,9 @@ on:
   push:
     branches: [ deploy-job ]
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   Build:
     runs-on: ubuntu-latest
