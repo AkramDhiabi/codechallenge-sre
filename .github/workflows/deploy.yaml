@@ -81,8 +81,8 @@ jobs:
           context: ./client
           target: dev
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/client:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/client:latest
-          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/client:latest
+          tags: ${{ steps.login-ecr.outputs.registry }}/client-dev:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/client-dev:latest
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/client-dev:latest
           cache-to: type=inline
           build-args: |
             AWS_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY }}
