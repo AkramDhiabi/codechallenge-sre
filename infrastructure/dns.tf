@@ -8,7 +8,7 @@ data "aws_acm_certificate" "superb_issued" {
   domain   = var.dns_zone_name
   types    = ["AMAZON_ISSUED"]
   statuses = ["ISSUED"]
-}
+} 
 
 # create a route53 record for api lb dns
 resource "aws_route53_record" "graphql" {
