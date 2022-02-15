@@ -1,7 +1,5 @@
 name: Remove production environment
-on:
-  pull_request:
-    types: [closed]
+on: [workflow_dispatch]
 
 jobs:
 
@@ -50,6 +48,4 @@ jobs:
         continue-on-error: true
         run: |
           terraform workspace select default
-          terraform workspace delete $TAG
-        env:
-          TAG: ${{ env.PR_NUMBER }}
+          terraform workspace delete production
