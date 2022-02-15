@@ -59,8 +59,8 @@ resource "aws_ecs_service" "graphql" {
 
   # put it in a private subnet 
   network_configuration {
-    subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
-    security_groups  = [aws_security_group.graphql.id]
+    subnets         = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+    security_groups = [aws_security_group.graphql.id]
   }
 
   load_balancer {
