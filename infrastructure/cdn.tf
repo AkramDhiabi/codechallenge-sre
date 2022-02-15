@@ -3,7 +3,7 @@ resource "aws_cloudfront_origin_access_identity" "superb_frontend_oai" {
   comment = "${local.prefix}-superb-frontend-oai"
 }
 
-resource "aws_cloudfront_distribution" "fstg_cdn" {
+resource "aws_cloudfront_distribution" "superb_cdn" {
   origin {
     domain_name = aws_s3_bucket.superb_bucket.bucket_regional_domain_name
     origin_id   = local.frontend_s3_origin_id
@@ -20,7 +20,7 @@ resource "aws_cloudfront_distribution" "fstg_cdn" {
 
   default_root_object = "index.html"
 
-  aliases = [ "client.${var.dns_zone_name}"]
+  aliases = [ "client-superb.${var.dns_zone_name}"]
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
