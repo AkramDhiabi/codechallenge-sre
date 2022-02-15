@@ -75,7 +75,6 @@ jobs:
             AWS_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
             AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}
-            VERSION=${{ steps.short-commit-sha.outputs.version }}
             BUILD_BUCKET=${{ secrets.S3_REPOSITORY }}
       
       - name: Build and Push client dev image
@@ -91,7 +90,6 @@ jobs:
             AWS_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
             AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}
-            VERSION=${{ steps.short-commit-sha.outputs.version }}
             BUILD_BUCKET=${{ secrets.S3_REPOSITORY }}
 
   Deploy:
