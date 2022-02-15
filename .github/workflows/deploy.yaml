@@ -129,7 +129,7 @@ jobs:
           export TF_VAR_auth_image=$AUTH_REPO:$TAG
           export TF_VAR_booking_image=$BOOKING_REPO:$TAG
           export TF_VAR_graphql_image=$GRAPHQL_REPO:$TAG
-           export TF_VAR_acm_arn_prod=$ACM_ARN_PROD
+          export TF_VAR_acm_arn_prod=$ACM_ARN_PROD
           terraform plan -no-color -lock=false
         env:
          TAG: ${{ steps.short-commit-sha.outputs.version }}
