@@ -59,7 +59,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/graphql:latest
           cache-to: type=inline
       
-      - name: Build and Push client builder image
+      - name: Build and Push client image
         uses: docker/build-push-action@v2
         with:
           context: ./client
