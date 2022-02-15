@@ -4,6 +4,8 @@ services:
   auth:
     build:
       context: auth
+      cache_from:
+        - 999618886922.dkr.ecr.eu-west-3.amazonaws.com/auth:latest
     restart: unless-stopped
     ports:
     - 4000:3000/tcp
@@ -14,6 +16,8 @@ services:
   booking:
     build:
       context: booking
+      cache_from:
+        - 999618886922.dkr.ecr.eu-west-3.amazonaws.com/booking:latest
     restart: unless-stopped
     ports:
     - 4100:3000/tcp
@@ -25,6 +29,8 @@ services:
   graphql:
     build:
       context: graphql
+      cache_from:
+        - 999618886922.dkr.ecr.eu-west-3.amazonaws.com/graphql:latest
     restart: unless-stopped
     ports:
     - 4200:3000/tcp
@@ -38,6 +44,8 @@ services:
     build:
       context: client
       target: dev
+      cache_from:
+        - 999618886922.dkr.ecr.eu-west-3.amazonaws.com/client-dev:latest
     restart: unless-stopped
     ports:
     - 4300:80/tcp
