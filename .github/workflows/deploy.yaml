@@ -156,7 +156,7 @@ jobs:
       
       - name: Deploy Frontend to S3
         run: |
-          export DEST=$TAG"-superb-frontend"
+          export DEST=production-superb-frontend
           aws s3 cp --recursive s3://$BUILD_BUCKET/deployment/$TAG s3://$DEST/production
         env:
           BUILD_BUCKET: ${{ secrets.S3_REPOSITORY }}
