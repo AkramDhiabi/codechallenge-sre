@@ -22,3 +22,7 @@ variable "dns_zone_name" {
   description = "Domain name"
   default     = "private.filestage.io"
 }
+
+variable "acm_arn_prod" {
+  description = "certificate arn in us-east-1 for superb.io"
+}
