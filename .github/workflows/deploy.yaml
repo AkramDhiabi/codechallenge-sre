@@ -4,10 +4,13 @@ name: deploy to production
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ setup-infrastructure ]
+    branches: [ deploy-job ]
+
+env:
+  DOCKER_BUILDKIT: 1
 
 jobs:
-  Build_Backend:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -59,7 +62,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/graphql:latest
           cache-to: type=inline
       
-      - name: Build and Push client builder image
+      - name: Build and Push client image
         uses: docker/build-push-action@v2
         with:
           context: ./client
@@ -72,7 +75,6 @@ jobs:
             AWS_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
             AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}
-            VERSION=${{ steps.short-commit-sha.outputs.version }}
             BUILD_BUCKET=${{ secrets.S3_REPOSITORY }}
       
       - name: Build and Push client dev image
@@ -81,12 +83,86 @@ jobs:
           context: ./client
           target: dev
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/client:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/client:latest
-          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/client:latest
+          tags: ${{ steps.login-ecr.outputs.registry }}/client-dev:${{ steps.short-commit-sha.outputs.version }}, ${{ steps.login-ecr.outputs.registry }}/client-dev:latest
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/client-dev:latest
           cache-to: type=inline
           build-args: |
             AWS_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY }}
             AWS_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
             AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}
-            VERSION=${{ steps.short-commit-sha.outputs.version }}
             BUILD_BUCKET=${{ secrets.S3_REPOSITORY }}
+
+  Deploy:
+     needs: [Build]
+     runs-on: ubuntu-latest
+     defaults:
+      run:
+        working-directory: infrastructure
+
+     steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: Set short commit sha
+        id: short-commit-sha
+        run: echo "::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-8)"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: terraform init
+        id: init
+        run: terraform init
+
+      - name: select workspace
+        run: terraform workspace select production
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          export TF_VAR_tag=$TAG
+          export TF_VAR_auth_image=$AUTH_REPO:$TAG
+          export TF_VAR_booking_image=$BOOKING_REPO:$TAG
+          export TF_VAR_graphql_image=$GRAPHQL_REPO:$TAG
+          export TF_VAR_acm_arn_prod=$ACM_ARN_PROD
+          terraform plan -no-color -lock=false
+        env:
+         TAG: ${{ steps.short-commit-sha.outputs.version }}
+         AUTH_REPO: ${{ secrets.AUTH_REPO }}
+         BOOKING_REPO: ${{ secrets.AUTH_REPO }}
+         GRAPHQL_REPO: ${{ secrets.GRAPHQL_REPO }}
+         ACM_ARN_PROD: ${{ secrets.ACM_ARN_PROD }}
+
+      - name: Create the environment
+        id: apply
+        run: |
+          export TF_VAR_tag=$TAG
+          export TF_VAR_auth_image=$AUTH_REPO:$TAG
+          export TF_VAR_booking_image=$BOOKING_REPO:$TAG
+          export TF_VAR_graphql_image=$GRAPHQL_REPO:$TAG
+          export TF_VAR_acm_arn_prod=$ACM_ARN_PROD
+          terraform apply -auto-approve -lock=false
+        env:
+         TAG: ${{ steps.short-commit-sha.outputs.version }}
+         AUTH_REPO: ${{ secrets.AUTH_REPO }}
+         BOOKING_REPO: ${{ secrets.BOOKING_REPO }}
+         GRAPHQL_REPO: ${{ secrets.GRAPHQL_REPO }}
+         ACM_ARN_PROD: ${{ secrets.ACM_ARN_PROD }}
+      
+      - name: Deploy Frontend to S3
+        run: |
+          export DEST=production-superb-frontend
+          aws s3 cp --recursive s3://$BUILD_BUCKET/deployment/production s3://$DEST/production
+        env:
+          BUILD_BUCKET: ${{ secrets.S3_REPOSITORY }}
+      
+      - name: Output Frontend URL
+        id: output_frontend_url
+        run: |
+          echo "Frontend URL: https://$(terraform output frontend_url | sed 's/"//g')"
