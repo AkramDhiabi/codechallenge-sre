@@ -45,7 +45,6 @@ jobs:
          ACM_ARN_PROD: ${{ secrets.ACM_ARN_PROD }}
 
       - name: delete workspace
-        continue-on-error: true
         run: |
           terraform workspace select default
           terraform workspace delete production
