@@ -22,6 +22,10 @@ resource "aws_docdb_cluster_parameter_group" "superb_pg" {
     name  = "tls"
     value = "disabled"
   }
+
+  lifecycle {
+   prevent_destroy = true
+  }
 }
 
 resource "aws_docdb_subnet_group" "superb_sg" {
@@ -43,6 +47,10 @@ resource "aws_docdb_cluster" "superb_cluster" {
   vpc_security_group_ids          = [aws_security_group.superb_db.id]
 
   tags = local.common_tags
+
+  lifecycle {
+   prevent_destroy = true
+  }
 }
 
 resource "aws_docdb_cluster_instance" "superb_instance" {
@@ -51,6 +59,10 @@ resource "aws_docdb_cluster_instance" "superb_instance" {
   instance_class     = "db.t3.medium"
 
   tags = local.common_tags
+
+  lifecycle {
+   prevent_destroy = true
+  }
 }
 
 # create superb db-endpoint secret
