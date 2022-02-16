@@ -11,25 +11,37 @@ Superb is growing. Today we have 4 applications organized in a [monorepo](https:
 - **[graphql](./graphql/)**: This API is our border service. It make the bridge between frontend applications and our microservices.
 - **[client](./client/)**: This API is a frontend app used to manage bookings.
 
-## Goals
+## Prerequisites
 
-As a developer, I know the best practices to build a good product, but I don't know what is the best way to deliver the applications I've coded.
+1- An AWS account
+2- region `Paris (eu-west-3)`
+3- A valid route53 domain name - ie: `superb.io`
 
-So, what we expect of you is:
+#### Install AWS CLI
+1- Install AWS CLI
+2- Get AWS CLI credentials
+3- Go to AWS Console: IAM
+4- Create a user that have `AdministratorAccess` IAM permission with access types Access key - Programmatic access and Password - AWS Management Console access
+5- Select Security Credentials
+6- Select Access Key ID and Secret access key
+7- Configure AWS CLI, run aws configure using above parameters.
 
-### Infrastructure side
+#### Create AWS resources from AWS console
 
-- A picture of the whole architecture you plan to setup. This picture must cover all aspects of the infrastructure: Networking, Storage, Hosts. Feel free to use any tool you like.
-- The code to provision all resources you planned in the last step. Feel free to use any tool of your preference: terraform, ansible, puppet, cloudformation, etc.
+1- An S3 bucket to host terraform infrastructure state named `fs-superb-app-state`.
+2- An S3 bucket for frontend builds and use its name as `S3_REPOSITORY` value to github secrets.
+3- A DynamoDB table to handle state locking named `superb-dynamodb-state-lock` and should have primary key LOCK_ID.
+4- An IAM user that have `AmazonS3FullAccess` IAM permission, use his security credentials as `S3_ACCESS_KEY` and `S3_SECRET_ACCESS_KEY` values to github secrets.
+5- Get AWS certificate ARN for `superb.io` in `us-east-1` region and export its value as `ACM_ARN_PROD` to github secrets.
 
-### Application side
+#### Install Docker
+You will need to install Docker and Docker Compose to get the app running locally in your machine.
 
-- A picture of all services and how they communicate one each other. 
-- The schema plan of all resources you've drawn in the last step. If you use helm or any automatic solution to provision resources, don't forget to export them in an yaml or any other readable format.
-- We also expect a delivery pipeline solution. Feel free to use a tool of your preference. We are using github as VCS, btw.
+#### Setup Github actions user
 
-### Additional information
-
-All API's are developed for this challenge and may or may not work as expected. You don't need to fix them. You will be assessed by the infrastructure design, cloud provider and application management.
-
-BTW, currently we are using AWS as cloud provider. 
+1- Go to AWS Console: IAM
+2- Select Add users with only access type Access key - Programmatic access
+3- Select Next Permissions
+4- Select Create policy and give the user the custom IAM permission inside `github-policy/github-policy.json`
+5- Select Access Key ID and Secret access key
+6- Create two github secrets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` using above parameters.
