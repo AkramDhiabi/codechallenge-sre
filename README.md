@@ -47,7 +47,7 @@ Superb is growing. Today we have 4 applications organized in a [monorepo](https:
    - booking: use its ARN to create `BOOKING_REPO` secret in github and update `cache-from` value in docker-compose for booking service.
    - graphql: use its ARN to create `GRAPHQL_REPO` secret in github and update `cache-from` value in docker-compose for graphql service.
    - client
-   - client-dev and use its ARN to update `cache-from` value ARN in docker-compose for client service.
+   - client-dev and use its ARN to update `cache-from` value in docker-compose for client service.
 
 #### Install Docker
 You will need to install Docker and Docker Compose to get the app running locally in your machine.
