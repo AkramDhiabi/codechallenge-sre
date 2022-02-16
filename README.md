@@ -11,7 +11,7 @@ Superb is growing. Today we have 4 applications organized in a [monorepo](https:
 - **[graphql](./graphql/)**: This API is our border service. It make the bridge between frontend applications and our microservices.
 - **[client](./client/)**: This API is a frontend app used to manage bookings.
 
-## Application diagram
+## Application architecture
 
 ![](images/simplified-diagram.png)
 
