@@ -10,3 +10,5 @@ crash.log
 
 # example.tfvars
 terraform.tfvars
+
+.DS_Store
