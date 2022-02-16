@@ -45,3 +45,8 @@ You will need to install Docker and Docker Compose to get the app running locall
 4. Select Create policy and give the user the custom IAM permission inside `github-policy/github-policy.json`
 5. Select Access Key ID and Secret access key
 6. Create two github secrets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` using above parameters.
+
+## CICD implementation
+We have one main github actions workflow that is triggered on push to `main` and will deploy a full production environment composed by:
+-  An ECS cluster that will host the backend
+-  And S3 bucket linked to a cloud front distribution that will host the frontend
