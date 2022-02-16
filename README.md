@@ -13,7 +13,7 @@ Superb is growing. Today we have 4 applications organized in a [monorepo](https:
 
 ## Application diagram
 
-https://github.com/AkramDhiabi/codechallenge-sre/blob/edit-readme/simplified-diagram.png
+![](images/simplified-diagram.png)
 
 
 ## Prerequisites
