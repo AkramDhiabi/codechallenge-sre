@@ -48,8 +48,10 @@ You will need to install Docker and Docker Compose to get the app running locall
 
 ## CICD implementation
 We have one main github actions workflow named `deploy to production` that is triggered on push to `main` and will deploy a full production environment composed by:
--  An ECS cluster that will host the backend
--  And S3 bucket linked to a cloud front distribution that will host the frontend
+-  A managed DocumentDB mongo database.
+-  An ECS cluster that will host the backend services (graphql, booking and auth).
+-  A load balancer to expose graphql service to the frontend client.
+-  And S3 bucket linked to a cloud front distribution that will host the frontend client.
 
 ## Clean the Stack
 We have a wokflow named `Remove production environment` that can be run manually in order to destroy the whole provisioned environment.
