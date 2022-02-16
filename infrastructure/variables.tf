@@ -20,7 +20,7 @@ variable "graphql_image" {
 
 variable "dns_zone_name" {
   description = "Domain name"
-  default     = "private.filestage.io"
+  default     = "superb.io"
 }
 
 variable "acm_arn_prod" {
