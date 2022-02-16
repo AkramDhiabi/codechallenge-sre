@@ -33,6 +33,10 @@ Superb is growing. Today we have 4 applications organized in a [monorepo](https:
 3. A DynamoDB table to handle state locking named `superb-dynamodb-state-lock` and should have primary key `LOCK_ID`.
 4. An IAM user that have `AmazonS3FullAccess` IAM permission to build the frontend, use his security credentials as `S3_ACCESS_KEY` and `S3_SECRET_ACCESS_KEY` values to github secrets.
 5. Get AWS certificate ARN for `superb.io` in `us-east-1` region and export its value as `ACM_ARN_PROD` to github secrets.
+6. Create 3 following parameters to host database credentials:
+   - `/backend/mongo/dbname` 
+   - `/backend/mongo/username`
+   - `/backend/mongo/password`
 
 #### Install Docker
 You will need to install Docker and Docker Compose to get the app running locally in your machine.
