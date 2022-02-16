@@ -43,11 +43,11 @@ Superb is growing. Today we have 4 applications organized in a [monorepo](https:
    - `/backend/mongo/username`
    - `/backend/mongo/password`
 7. Create the following ECR repositories to host docker images:
-   - auth: use its ARN to create `AUTH_REPO` secret in github.
-   - booking: use its ARN to create `BOOKING_REPO` secret in github.
-   - graphql: use its ARN to create `GRAPHQL_REPO` secret in github.
+   - auth: use its ARN to create `AUTH_REPO` secret in github and update `cache-from` value in docker-compose for auth service.
+   - booking: use its ARN to create `BOOKING_REPO` secret in github and update `cache-from` value in docker-compose for booking service.
+   - graphql: use its ARN to create `GRAPHQL_REPO` secret in github and update `cache-from` value in docker-compose for graphql service.
    - client
-   - client-dev
+   - client-dev and use its ARN to update `cache-from` value ARN in docker-compose for client service.
 
 #### Install Docker
 You will need to install Docker and Docker Compose to get the app running locally in your machine.
